@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+/* Tokens semânticos (padrão shadcn). Escuro é o padrão (referência Rocketseat); claro usa periwinkle + navy. */
+:root {
+  --paper: #f2f3f8;
+  --card: #ffffff;
+  --paper-deep: #e9ebf3;
+  --ink: #0c0b2b;
+  --muted: #5f637a;
+  --line: #e1e3ee;
+  --accent: #6a5cf0;
+  --accent-fg: #ffffff;
+  --brand: #5a4fe0;
+  --brand-dark: #4538c4;
+  --brand-soft: #e9e8ff;
+  --success: #12805c;
+  --success-soft: #dcf5ea;
+  --warn: #9a6700;
+  --warn-soft: #fdf0d0;
+  --danger: #c4302b;
+  --danger-soft: #fde7e5;
+  color-scheme: light;
+}
+
+.dark {
+  --paper: #0d0d12;
+  --card: #14141b;
+  --paper-deep: #1b1b25;
+  --ink: #f1f1f6;
+  --muted: #9b9bb0;
+  --line: #262631;
+  --accent: #8b6cf7;
+  --accent-fg: #ffffff;
+  --brand: #a698ff;
+  --brand-dark: #c1b7ff;
+  --brand-soft: #221d3f;
+  --success: #3ee0a0;
+  --success-soft: #10281f;
+  --warn: #f5b94a;
+  --warn-soft: #2b2410;
+  --danger: #ff8c8c;
+  --danger-soft: #2e1517;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-canvas: var(--paper);
+  --color-surface: var(--card);
+  --color-subtle: var(--paper-deep);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-brand-soft: var(--brand-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warn: var(--warn);
+  --color-warn-soft: var(--warn-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+
+  /* paleta fixa */
+  --color-mint: #34e0a1;
+  --color-pink: #f6b5e0;
+  --color-sky: #8fb4ff;
+  --color-periwinkle: #6c84f5;
+  --color-navy: #0c0b2b;
+
+  --radius-card: 0.75rem;
+}
+
+@layer base {
+  * { border-color: var(--line); }
+  html { -webkit-text-size-adjust: 100%; }
+  body { @apply bg-canvas font-sans text-ink antialiased; font-size: 14px; }
+  h1 { @apply font-display font-extrabold tracking-[-0.035em] text-ink; line-height: 1.05; }
+  h2, h3, h4 { @apply font-display font-bold tracking-tight text-ink; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  a { @apply text-ink; }
+  ::selection { background: var(--accent); color: #fff; }
+  button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+}
+
+@layer components {
+  .card { @apply rounded-xl border border-line bg-surface p-5 text-ink sm:p-6; }
+  .field-label { @apply mb-1.5 block text-sm font-medium text-ink; }
+  .field-hint { @apply mt-1 text-xs text-muted; }
+  .link { @apply font-medium text-ink underline underline-offset-4 decoration-1 hover:text-brand; }
+  .eyebrow { @apply font-mono text-[11px] font-medium tracking-[0.14em] text-muted uppercase; }
+  .display { @apply font-display font-extrabold tracking-[-0.035em]; line-height: 1.05; }
+  .gradient-text { background-image: linear-gradient(90deg, #8b6cf7 0%, #6c84f5 45%, #34e0a1 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .glow { box-shadow: 0 0 0 1px rgb(139 108 247 / 0.25), 0 20px 60px -20px rgb(139 108 247 / 0.45); }
+}
+
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.animate-marquee { animation: marquee 30s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

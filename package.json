@@ -1,0 +1,14 @@
+{
+  "name": "hackaton-app",
+  "private": true,
+  "packageManager": "pnpm@10.15.1",
+  "scripts": {
+    "dev:api": "pnpm --filter @hackaton/api dev",
+    "dev:web": "pnpm --filter @hackaton/web dev",
+    "typecheck": "pnpm -r typecheck",
+    "db:generate": "pnpm --filter @hackaton/api db:generate",
+    "db:migrate": "pnpm --filter @hackaton/api db:migrate",
+    "db:seed": "pnpm --filter @hackaton/api db:seed",
+    "db:studio": "pnpm --filter @hackaton/api db:studio"
+  }
+}
