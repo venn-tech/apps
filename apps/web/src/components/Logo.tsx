@@ -2,7 +2,7 @@ import { useId } from "react";
 import { cn } from "@/lib/utils";
 
 /**
- * venn: dois mundos (um quadrado e um círculo) que se cruzam.
+ * venn: o quadrado (empreendedorismo) e o círculo (tecnologia) se cruzam.
  * A interseção é o "espaço em comum" onde as ideias viram protótipo, como num diagrama de Venn.
  */
 export function LogoMark({ className }: { className?: string }) {
