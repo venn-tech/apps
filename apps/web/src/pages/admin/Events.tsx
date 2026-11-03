@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/dialog";
 import { Field, Input, Select, Textarea } from "@/components/ui/input";
 import { Avatar, Empty, PageHeader, PageLoading } from "@/components/ui/misc";
-import { api, errorMessage, exportUrl, get, setActiveEventId, activateEvent } from "@/lib/api";
+import { api, errorMessage, exportUrl, get, setActiveEventId, activateEvent, apiUrl } from "@/lib/api";
 import { fmtRange } from "@/lib/utils";
 
 type Role = (typeof eventRoles)[number];
@@ -130,7 +130,7 @@ export function AdminEventMembers() {
   return (
     <>
       <PageHeader back={{ to: "/app/admin/pessoas", label: "Pessoas" }} title={q.data.event.name} subtitle={`${q.data.members.length} pessoa(s) neste evento.`}
-        actions={<Button asChild variant="outline"><a href={`/api/admin/export/participants.csv?eventId=${eventId}`}>Exportar CSV</a></Button>} />
+        actions={<Button asChild variant="outline"><a href={apiUrl(`/api/admin/export/participants.csv?eventId=${eventId}`)}>Exportar CSV</a></Button>} />
       <div className="mb-4 flex flex-wrap items-center gap-3">
         <Input aria-label="Buscar pessoa" placeholder="Buscar por nome ou e-mail" className="max-w-xs" value={filter} onChange={(e) => setFilter(e.target.value)} />
         <Select aria-label="Filtrar por papel" className="w-44" value={role} onChange={(e) => setRoleFilter(e.target.value as "" | Role)}><option value="">Todos os papéis</option>{eventRoles.map((r) => <option key={r} value={r}>{roleLabel[r]}</option>)}</Select>
@@ -177,7 +177,7 @@ export function AdminTeams() {
               <div className="flex items-start justify-between gap-2">
                 <div><h2 className="text-lg">{t.name}</h2><p className="text-xs text-muted">{t.members.length} integrante(s) · {t.submitted} envio(s){t.finalConfirmed && " · entrega final confirmada"}</p></div>
                 <div className="flex gap-2"><Button asChild size="sm" variant="primary"><Link to={`/app/equipes/${t.id}`}>Abrir trabalho</Link></Button>
-                  <Button asChild size="sm" variant="outline"><a href={`/api/admin/export/team/${t.id}.zip`}><FileArchive /> ZIP</a></Button></div>
+                  <Button asChild size="sm" variant="outline"><a href={apiUrl(`/api/admin/export/team/${t.id}.zip`)}><FileArchive /> ZIP</a></Button></div>
               </div>
               <ul className="flex flex-wrap gap-2">{t.members.map((m) => <li key={m.userId} title={m.email} className="inline-flex items-center gap-2 rounded-full bg-subtle py-1 pr-1 pl-1 text-sm"><Avatar size="sm" />{m.name}<button aria-label={`Remover ${m.name}`} className="grid size-5 place-items-center rounded-full text-muted hover:bg-line" onClick={() => confirm(`Remover ${m.name} da equipe?`) && removeMember.mutate(m.userId)}>×</button></li>)}</ul>
               <Field label="Problema" htmlFor={`p-${t.id}`}><Select id={`p-${t.id}`} value={problems.data?.items.find((p) => p.title === t.problem)?.id ?? ""} onChange={(e) => setProblem.mutate({ id: t.id, problemId: e.target.value || null })}><option value="">Nenhum</option>{problems.data?.items.map((p) => <option key={p.id} value={p.id}>{p.title}</option>)}</Select></Field>

@@ -1,6 +1,11 @@
 import axios, { AxiosError } from "axios";
 
-export const api = axios.create({ baseURL: "/api", withCredentials: true });
+// Em desenvolvimento o Vite faz proxy de /api. Em produção, com front e API em subdomínios do mesmo domínio,
+// defina VITE_API_URL (ex.: https://api.seudominio.com/api).
+const API_BASE = ((import.meta.env.VITE_API_URL as string | undefined) || "/api").replace(/\/$/, "");
+export const apiUrl = (path: string) => `${API_BASE}${path.replace(/^\/api/, "")}`;
+
+export const api = axios.create({ baseURL: API_BASE, withCredentials: true });
 
 // Evento ativo (seletor de evento): enviado em todas as chamadas.
 const EVENT_KEY = "event-id";
@@ -19,7 +24,7 @@ export function errorMessage(err: unknown, fallback = "Algo deu errado. Tente no
 export const get = <T,>(url: string) => api.get<T>(url).then((r) => r.data);
 
 /** Links de download (CSV/ZIP) não enviam cabeçalhos: o evento vai na URL. */
-export const exportUrl = (path: string) => { const id = getActiveEventId(); return id ? `${path}${path.includes("?") ? "&" : "?"}eventId=${id}` : path; };
+export const exportUrl = (path: string) => { const id = getActiveEventId(); return apiUrl(id ? `${path}${path.includes("?") ? "&" : "?"}eventId=${id}` : path); };
 
 import type { QueryClient } from "@tanstack/react-query";
 

@@ -1,0 +1,72 @@
+# Blueprint do Render: cria o banco, a API (container Docker) e o front (site estático).
+# Como usar: Render > New > Blueprint > selecione este repositório.
+# Os valores marcados com `sync: false` são pedidos no painel (segredos não ficam no Git).
+#
+# Domínio: front em venn-hackatons.online e API em api.venn-hackatons.online. Por serem do mesmo site,
+# o cookie de sessão funciona. Depois do primeiro deploy, aponte o DNS como o Render indicar
+# (CNAME de "api" para o endereço do serviço; registro ALIAS/A para o domínio raiz).
+
+databases:
+  - name: venn-db
+    databaseName: venn
+    user: venn
+    plan: basic-256mb # o plano "free" expira em ~30 dias; use um pago (ou Neon/Supabase) para o evento
+
+services:
+  # ---- API (container Docker) ----
+  - type: web
+    name: venn-api
+    runtime: docker
+    plan: starter # o plano free "dorme" após inatividade
+    dockerfilePath: ./apps/api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    domains:
+      - api.venn-hackatons.online
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: venn-db
+          property: connectionString
+      - key: WEB_ORIGIN
+        value: https://venn-hackatons.online
+      - key: SESSION_COOKIE_SECURE
+        value: "true"
+      - key: S3_ENDPOINT # https://<ACCOUNT_ID>.r2.cloudflarestorage.com
+        sync: false
+      - key: S3_BUCKET
+        sync: false
+      - key: S3_ACCESS_KEY_ID
+        sync: false
+      - key: S3_SECRET_ACCESS_KEY
+        sync: false
+      - key: S3_REGION
+        value: auto
+      - key: S3_FORCE_PATH_STYLE
+        value: "false"
+      - key: SMTP_URL # ex.: smtps://usuario:senha@smtp.exemplo.com:465 (recuperação de senha)
+        sync: false
+      - key: MAIL_FROM
+        value: venn <nao-responda@venn-hackatons.online>
+      - key: SEED_ADMIN_EMAIL # usados só ao rodar `pnpm db:seed` no Shell do serviço
+        sync: false
+      - key: SEED_ADMIN_PASSWORD
+        sync: false
+
+  # ---- Front (site estático; não é container) ----
+  - type: web
+    name: venn-web
+    runtime: static
+    buildCommand: corepack enable && pnpm install --frozen-lockfile --filter @hackaton/web... && pnpm --filter @hackaton/web build
+    staticPublishPath: ./apps/web/dist
+    domains:
+      - venn-hackatons.online
+    routes:
+      - type: rewrite # rotas do SPA (ex.: /e/meu-evento) caem no index.html
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: VITE_API_URL
+        value: https://api.venn-hackatons.online/api
