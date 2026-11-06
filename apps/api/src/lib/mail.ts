@@ -1,12 +1,13 @@
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import { env } from "../env.js";
 
-const transport = env.SMTP_URL ? nodemailer.createTransport(env.SMTP_URL) : null;
+const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null;
 
 export async function sendMail(to: string, subject: string, text: string) {
-  if (!transport) {
+  if (!resend) {
     console.log(`[mail:console] para=${to} assunto="${subject}"\n${text}`);
     return;
   }
-  await transport.sendMail({ from: env.MAIL_FROM, to, subject, text });
+  const { error } = await resend.emails.send({ from: env.MAIL_FROM, to, subject, text });
+  if (error) throw new Error(`Falha ao enviar e-mail (Resend): ${error.message}`);
 }

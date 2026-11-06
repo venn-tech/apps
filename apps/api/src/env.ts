@@ -21,8 +21,8 @@ export const env = z.object({
   S3_ACCESS_KEY_ID: z.string(),
   S3_SECRET_ACCESS_KEY: z.string(),
   S3_FORCE_PATH_STYLE: bool,
-  SMTP_URL: z.string().optional(),
-  MAIL_FROM: z.string().default("Hackathon <no-reply@example.com>"),
+  RESEND_API_KEY: z.string().optional(),
+  MAIL_FROM: z.string().default("venn <nao-responda@venn-hackatons.online>"),
   SEED_ADMIN_EMAIL: z.string().default("organizacao@example.com"),
   SEED_ADMIN_PASSWORD: z.string().default("troque-esta-senha"),
 }).parse(process.env);

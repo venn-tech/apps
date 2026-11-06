@@ -44,7 +44,7 @@ services:
         value: auto
       - key: S3_FORCE_PATH_STYLE
         value: "false"
-      - key: SMTP_URL # ex.: smtps://usuario:senha@smtp.exemplo.com:465 (recuperação de senha)
+      - key: RESEND_API_KEY # chave da API do Resend (recuperação de senha)
         sync: false
       - key: MAIL_FROM
         value: venn <nao-responda@venn-hackatons.online>
