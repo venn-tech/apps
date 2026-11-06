@@ -40,11 +40,11 @@ const [event] = await db.insert(schema.events).values({
   teamFormationDeadline: day(6, 11),
   problemsPublishedAt: day(6, 9),
   schedule: [
-    { day: "Dia 06", time: "Manhã", title: "Acolhimento e abertura", description: "Apresentação dos problemas, regras e formação dos grupos." },
-    { day: "Dia 06", time: "Manhã", title: "Início do desenvolvimento", description: "Investigação, planejamento e mentorias." },
-    { day: "Dia 07", time: "Manhã", title: "Aprimoramento e protótipo", description: "Ajustes após mentoria e construção do protótipo." },
-    { day: "Dia 07", time: "Manhã e tarde", title: "Preparação do pitch" },
-    { day: "Dia 07", time: "Tarde", title: "Entrega final, apresentações e devolutivas" },
+    { day: "Dia 1", time: "Manhã", title: "Acolhimento e abertura", description: "Apresentação dos problemas, regras e formação dos grupos." },
+    { day: "Dia 1", time: "Manhã", title: "Início do desenvolvimento", description: "Investigação, planejamento e mentorias." },
+    { day: "Dia 2", time: "Manhã", title: "Aprimoramento e protótipo", description: "Ajustes após mentoria e construção do protótipo." },
+    { day: "Dia 2", time: "Manhã e tarde", title: "Preparação do pitch" },
+    { day: "Dia 2", time: "Tarde", title: "Entrega final, apresentações e devolutivas" },
   ],
   faq: [
     { q: "Preciso ter uma conta Google?", a: "Não. Você cria sua conta com e-mail e senha." },

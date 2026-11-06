@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { PageLoading } from "@/components/ui/misc";
 import { get } from "@/lib/api";
 import { homeFor, useMe } from "@/lib/auth";
-import { cn, fmtRange } from "@/lib/utils";
+import { cn, fmtHours, fmtRange } from "@/lib/utils";
 
 interface PublicEvent {
   slug: string; name: string; description: string; location: string; startsAt: string | null; endsAt: string | null; registrationOpen: boolean;
@@ -52,6 +52,7 @@ export default function Landing() {
   const join = `/e/${e.slug}/inscrever`;
   const activeDay = day ?? days[0];
   const dates = fmtRange(e.startsAt, e.endsAt);
+  const hours = fmtHours(e.startsAt, e.endsAt);
   const marquee = [`${dates}`, "evento presencial", "participe em equipe", "mentoria de mesa em mesa"];
 
   return (
@@ -76,11 +77,11 @@ export default function Landing() {
             <div className="mt-8"><Countdown to={e.startsAt} /></div>
           </div>
           <div>
-            <h1 className="text-4xl sm:text-5xl">Dois dias para transformar um problema em <span className="gradient-text">solução de verdade.</span></h1>
+            <h1 className="text-4xl sm:text-5xl">Transforme um problema real em <span className="gradient-text">solução de verdade.</span></h1>
             <div className="mt-8 grid gap-6 sm:grid-cols-[auto_1fr]">
               <ul className="space-y-4 font-mono text-[13px] tracking-[0.06em] uppercase">
                 <li className="flex items-center gap-3"><CalendarCheck className="size-6 text-accent" aria-hidden />{dates}</li>
-                <li className="flex items-center gap-3"><Clock className="size-6 text-accent" aria-hidden />Manhã e tarde</li>
+                <li className="flex items-center gap-3"><Clock className="size-6 text-accent" aria-hidden />{hours}</li>
                 <li className="flex items-center gap-3"><MapPin className="size-6 text-accent" aria-hidden />{e.location || "Local a definir"}</li>
               </ul>
               <div>
@@ -126,7 +127,7 @@ export default function Landing() {
       <section id="cronograma" className="scroll-mt-4 border-y border-line bg-surface/40">
         <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
           <p className="eyebrow">Cronograma</p>
-          <h2 className="display mt-3 text-3xl sm:text-4xl">Os dois dias</h2>
+          <h2 className="display mt-3 text-3xl sm:text-4xl">Programação</h2>
           <div role="tablist" className="mt-6 inline-flex rounded-lg border border-line bg-surface p-1">
             {days.map((d) => (
               <button key={d} role="tab" aria-selected={d === activeDay} onClick={() => setDay(d)} className={cn("rounded-md px-5 py-2 text-sm font-semibold transition", d === activeDay ? "bg-accent text-accent-fg" : "text-muted hover:text-ink")}>{d}</button>

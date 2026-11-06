@@ -8,7 +8,7 @@ import { PageHeader, PageLoading, SectionTitle } from "@/components/ui/misc";
 import { api, errorMessage, get } from "@/lib/api";
 import { qrDataUrl, renderTicketPng, ticketCode, type TicketData } from "@/lib/ticket";
 import type { Team } from "@/lib/types";
-import { fmtRange } from "@/lib/utils";
+import { fmtHours, fmtRange } from "@/lib/utils";
 import { LogoMark } from "@/components/Logo";
 
 interface Me { id: string; fullName: string; displayName: string; email: string; school: string | null; role: string; imageConsent: boolean }
@@ -34,7 +34,7 @@ export function ProfilePage() {
     return {
       event: e.name,
       date: fmtRange(e.startsAt, e.endsAt),
-      time: "Manhã e tarde",
+      time: fmtHours(e.startsAt, e.endsAt),
       place: e.location || "A definir",
       name: u.fullName,
       team: team.data?.team?.name ?? "Sem equipe",

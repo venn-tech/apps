@@ -24,3 +24,10 @@ export function fmtRange(a: string | Date | null | undefined, b: string | Date |
   if (x.getMonth() === y.getMonth() && x.getFullYear() === y.getFullYear()) return d(x) === d(y) ? `${d(x)} de ${m(x)}` : `${d(x)} e ${d(y)} de ${m(x)}`;
   return `${d(x)} de ${m(x)} a ${d(y)} de ${m(y)}`;
 }
+
+/** "08:00 às 18:00" a partir das datas do evento; "Horário a definir" se não houver. */
+export function fmtHours(a: string | Date | null | undefined, b: string | Date | null | undefined) {
+  if (!a || !b) return "Horário a definir";
+  const h = (v: string | Date) => new Date(v).toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+  return `${h(a)} às ${h(b)}`;
+}

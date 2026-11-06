@@ -31,7 +31,7 @@ function AuthFrame({ title, subtitle, step, children, footer }: { title: string;
         <PolyBackground />
         <div className="absolute bottom-12 left-10 max-w-sm">
           <LogoMark className="mb-6 size-12" />
-          <p className="font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.04em]">Dois dias. <span className="gradient-text">Um desafio real.</span></p>
+          <p className="font-display text-4xl leading-[1.05] font-extrabold tracking-[-0.04em]">Um desafio. <span className="gradient-text">Ideias em ação.</span></p>
           <p className="mt-3 font-mono text-xs tracking-[0.1em] text-muted uppercase">venn · plataforma de hackathons</p>
         </div>
       </aside>
